@@ -23,9 +23,8 @@ ext {
 
 dependencies {
     // 1. Web & Security (웹 및 JWT 보안 인증)
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 
     // 2. JWT (JSON Web Token) 라이브러리 - 🌟 추가됨
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -37,13 +36,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'org.postgresql:postgresql'
     
-    // 4. Developer Tools & Test (개발 편의성 및 테스트)
+// 4. Developer Tools & Test (개발 편의성 및 테스트)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    //developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    // 🌟 이 줄을 추가해야 JUnit과 @SpringBootTest를 인식할 수 있습니다
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
