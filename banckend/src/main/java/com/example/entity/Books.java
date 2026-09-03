@@ -27,12 +27,12 @@ public class Books {
     private Long id;
 
     // 도서제목
-    @NotBlank(message = "도서 제목은 필수 입력 값입니다.")
+    // @NotBlank(message = "도서 제목은 필수 입력 값입니다.")
     @Column(nullable = false, length = 100)
     private String title;
 
     // 도서저자
-    @NotBlank(message = "저자 이름은 필수 입력 값입니다.")
+    // @NotBlank(message = "저자 이름은 필수 입력 값입니다.")
     @Column(nullable = false, length = 50)
     private String author;
 
