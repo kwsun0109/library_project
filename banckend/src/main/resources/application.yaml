@@ -16,3 +16,8 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+
+
+# JWT 시크릿 키 분리 설정(깃에 올라가지 않도록 주의)
+jwt:
+  secret: myVerySecretKeyForBookManagementSystemJwtTokenGeneration2026SecureKeyWithSufficientLength!
