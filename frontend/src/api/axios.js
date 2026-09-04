@@ -1,24 +1,24 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: '/api',
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+  baseURL: '/api', // Vite 프록시를 타기 위한 설정
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// 필요시 요청 응답 인터셉터 설정(토큰 주입, 에러 핸들링 등)
+// 🔑 핵심: API를 요청하기 전에 로컬 스토리지의 토큰을 가로채서 헤더에 쏙 넣어줌!
 api.interceptors.request.use(
-    (config) => {
-        // localStorage에서 JWT 토큰을 가져와 헤더에 담기
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorizatin = 'Bearer ${token}';
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
+  (config) => {
+    const token = localStorage.getItem('token'); // 로그인할 때 저장한 토큰 키 이름
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 export default api;

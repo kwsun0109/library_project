@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
@@ -50,7 +51,7 @@ public class Books_Controller {
     }
 
     // 도서 수정(/api/books/{id})
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Books_Dto> updateBook(
             @PathVariable("id") Long id,
             @Valid @RequestBody Books_Dto booksDto) {

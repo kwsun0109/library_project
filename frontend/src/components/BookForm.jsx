@@ -36,7 +36,7 @@ function BookForm() {
     try {
       setError(null);
       if (isEdit) {
-        await api.post(`/books/${id}`, form);
+        await api.put(`/books/${id}`, form);
       } else {
         await api.post('/books', form);
       }

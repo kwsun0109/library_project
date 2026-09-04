@@ -39,13 +39,22 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    // 3. 토큰 유효성 검증
+    // 3. 토큰 유효성 검증 (에러 원인 출력용)
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
+        } catch (io.jsonwebtoken.security.SignatureException e) {
+            System.out.println("❌ 검증 실패: 잘못된 JWT 서명입니다.");
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("❌ 검증 실패: 만료된 JWT 토큰입니다.");
+        } catch (io.jsonwebtoken.UnsupportedJwtException e) {
+            System.out.println("❌ 검증 실패: 지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ 검증 실패: JWT 토큰이 비었거나 잘못되었습니다.");
+        } catch (Exception e) {
+            System.out.println("❌ 검증 실패 기타 에러: " + e.getMessage());
         }
+        return false;
     }
 }
