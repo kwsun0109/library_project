@@ -1,7 +1,7 @@
-package com.example.repository;
+package com.example.book_managerment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.entity.Books;
+import com.example.book_managerment.entity.Books;
 import java.util.List;
 
 public interface Books_Repository extends JpaRepository<Books, Long> {

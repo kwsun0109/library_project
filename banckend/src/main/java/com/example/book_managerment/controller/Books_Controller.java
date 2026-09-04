@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.example.book_managerment.controller;
 
-import com.example.dto.Books_Dto;
-import com.example.service.Books_Service;
+import com.example.book_managerment.dto.Books_Dto;
+import com.example.book_managerment.service.Books_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

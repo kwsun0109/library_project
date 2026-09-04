@@ -1,8 +1,8 @@
-package com.example.service;
+package com.example.book_managerment.service;
 
-import com.example.entity.Books;
-import com.example.dto.Books_Dto;
-import com.example.repository.Books_Repository;
+import com.example.book_managerment.entity.Books;
+import com.example.book_managerment.dto.Books_Dto;
+import com.example.book_managerment.repository.Books_Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

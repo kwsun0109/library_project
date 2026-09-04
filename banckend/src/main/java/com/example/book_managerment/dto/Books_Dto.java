@@ -1,6 +1,6 @@
-package com.example.dto;
+package com.example.book_managerment.dto;
 
-import com.example.entity.Books;
+import com.example.book_managerment.entity.Books;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
