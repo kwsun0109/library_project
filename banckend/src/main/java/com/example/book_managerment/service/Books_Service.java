@@ -47,7 +47,7 @@ public class Books_Service {
     public Books_Dto createBook(Books_Dto booksDto) {
         // dto 를 entity로 변환 후 저장
         Books book = booksDto.toEntity();
-        Books savedBook = booksRepository.save(book);
+        Books savedBook = booksRepository.save(book); 
 
         // 저장된 entity를 dto로 다시 변환해서 반환
         return new Books_Dto(savedBook);
