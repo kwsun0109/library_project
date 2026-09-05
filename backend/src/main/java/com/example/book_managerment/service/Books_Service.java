@@ -16,16 +16,14 @@ public class Books_Service {
 
     private final Books_Repository booksRepository;
 
-    // 도서 전제 조회
+    // 도서 전체 조회
     @Transactional(readOnly = true)
     public List<Books_Dto> searchBooks(String keyword) {
         List<Books> books;
 
         if (keyword == null || keyword.isEmpty()) {
-            // 키워드가 없으면 전체 목록 조회
             books = booksRepository.findAll();
         } else {
-            // 키워드가 있으면 제목/저자 검색
             books = booksRepository.findByTitleContainingOrAuthorContaining(keyword, keyword);
         }
         return books.stream()
@@ -42,25 +40,28 @@ public class Books_Service {
         return new Books_Dto(book);
     }
 
-    // 도서 등록
+    // 도서 등록 (작성자 이메일 함께 저장)
     @Transactional
-    public Books_Dto createBook(Books_Dto booksDto) {
-        // dto 를 entity로 변환 후 저장
+    public Books_Dto createBook(Books_Dto booksDto, String userEmail) {
         Books book = booksDto.toEntity();
-        Books savedBook = booksRepository.save(book); 
+        book.setEmail(userEmail); // 엔티티에 작성자 이메일 설정 (Entity에 email 필드가 있어야 합니다)
+        Books savedBook = booksRepository.save(book);
 
-        // 저장된 entity를 dto로 다시 변환해서 반환
         return new Books_Dto(savedBook);
     }
 
-    // 도서 수정
+    // 도서 수정 (작성자 본인 확인)
     @Transactional
-    public Books_Dto updateBook(Long id, Books_Dto booksDto) {
-        // 수정할 책 정보가 존재 하는지 확인
+    public Books_Dto updateBook(Long id, Books_Dto booksDto, String userEmail) {
         Books book = booksRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("수정할 도서가 존재하지 않습니다. ID: " + id));
 
-        // 엔티티 값 변경 (Setter 사용)
+        // 작성자 본인인지 검증
+        if (book.getEmail() != null && !book.getEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("본인이 등록한 도서만 수정할 수 있습니다.");
+        }
+
+        // 엔티티 값 변경
         book.setTitle(booksDto.getTitle());
         book.setAuthor(booksDto.getAuthor());
         book.setPublisher(booksDto.getPublisher());
@@ -71,12 +72,16 @@ public class Books_Service {
         return new Books_Dto(book);
     }
 
-    // 도서 삭제
+    // 도서 삭제 (작성자 본인 확인)
     @Transactional
-    public void deleteBook(Long id) {
-        // 삭제할 데이터(도서)가 존재하는지 확인
+    public void deleteBook(Long id, String userEmail) {
         Books book = booksRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("삭제할 도서가 존재하지 않습니다. ID: " + id));
+
+        // 작성자 본인인지 검증
+        if (book.getEmail() != null && !book.getEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("본인이 등록한 도서만 삭제할 수 있습니다.");
+        }
 
         booksRepository.delete(book);
     }
@@ -95,5 +100,4 @@ public class Books_Service {
                 .map(Books_Dto::new)
                 .collect(Collectors.toList());
     }
-
 }

@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 @EntityListeners(AuditingEntityListener.class) // createdAt 자동 생성을 위해 필요
-
 public class Books {
 
     // PK, 자동증가(도서고유번호)
@@ -26,12 +25,10 @@ public class Books {
     private Long id;
 
     // 도서제목
-    // @NotBlank(message = "도서 제목은 필수 입력 값입니다.")
     @Column(nullable = false, length = 100)
     private String title;
 
     // 도서저자
-    // @NotBlank(message = "저자 이름은 필수 입력 값입니다.")
     @Column(nullable = false, length = 50)
     private String author;
 
@@ -55,7 +52,11 @@ public class Books {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @PrePersist 
+    // 등록자 이메일 (작성자 본인 확인용)
+    @Column(name = "user_email", length = 100)
+    private String email;
+
+    @PrePersist
     public void PrePersist() {
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();

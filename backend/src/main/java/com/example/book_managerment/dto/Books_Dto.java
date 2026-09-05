@@ -35,6 +35,8 @@ public class Books_Dto {
 
     private LocalDateTime createdAt;
 
+    private String email; // 작성자 이메일 필드 추가
+
     // Entity를 DTO로 변환하는 생성자
     public Books_Dto(Books books) {
         this.id = books.getId();
@@ -45,6 +47,7 @@ public class Books_Dto {
         this.publicationDate = books.getPublicationDate();
         this.stock = books.getStock();
         this.createdAt = books.getCreatedAt();
+        this.email = books.getEmail(); // 엔티티의 이메일 값을 DTO로 매핑
     }
 
     // DTO를 Entity로 변환하는 메서드 (데이터 저장 시 활용)
@@ -56,6 +59,7 @@ public class Books_Dto {
         book.setIsbn(this.isbn);
         book.setPublicationDate(this.publicationDate);
         book.setStock(this.stock != null ? this.stock : 0); // null이면 기본값 0
+        book.setEmail(this.email); // 이메일 매핑
         return book;
     }
 }

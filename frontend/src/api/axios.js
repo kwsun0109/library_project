@@ -1,18 +1,16 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api', // Vite 프록시를 타기 위한 설정
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  // 도커의 Nginx 프록시와 로컬 개발 환경을 모두 지원하려면 빈 문자열('') 또는 '/api'로 설정
+  baseURL: '/api', 
 });
 
-// 🔑 핵심: API를 요청하기 전에 로컬 스토리지의 토큰을 가로채서 헤더에 쏙 넣어줌!
+// 요청을 보내기 전에 로컬 스토리지의 토큰을 헤더에 자동으로 포함시킴
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // 로그인할 때 저장한 토큰 키 이름
+    const token = localStorage.getItem('token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
